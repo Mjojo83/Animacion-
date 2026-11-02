@@ -1,0 +1,80 @@
+{
+  "name": "ejemplo-minimal-tech",
+  "version": 1,
+  "summary": "Motion limpio y técnico, de producto de software. Fondo casi negro, tipografía grotesca grande con tracking negativo, un solo color de acento eléctrico y movimientos cortos por máscara. Todo entra con precisión y sin rebote; el ritmo lo marca la cascada de texto, no los efectos.",
+  "mood": ["limpio", "técnico", "preciso", "sobrio", "moderno", "confiado"],
+  "references": ["intros de keynotes de software", "landing pages de developer tools", "motion de Linear y Vercel"],
+  "palette": {
+    "background": "#0B0C10",
+    "surface": "#15171E",
+    "foreground": "#F3F4F6",
+    "muted": "#8B90A0",
+    "primary": "#5B8CFF",
+    "secondary": "#A78BFA",
+    "accent": "#36E2B4",
+    "extra": ["#1F2330"],
+    "usage": "Fondo oscuro siempre. Texto principal casi blanco. El acento verde-menta solo en detalles pequeños (líneas, puntos, cursor). El azul primario para la barra de rótulos y números. Nunca más de dos colores de acento en pantalla."
+  },
+  "typography": {
+    "display": { "family": "Inter", "weight": 700, "letterSpacing": "-0.035em", "lineHeight": 0.98, "googleFont": true },
+    "body": { "family": "Inter", "weight": 400, "letterSpacing": "0em", "lineHeight": 1.35, "googleFont": true },
+    "mono": { "family": "JetBrains Mono", "weight": 500, "letterSpacing": "0em", "lineHeight": 1.4, "googleFont": true },
+    "caseStyle": "normal",
+    "scaleHint": "Titulares de 8-11% del alto, cuerpo de 2.5-3%. Mucho aire entre bloques.",
+    "rules": [
+      "Un solo titular por escena, máximo dos líneas",
+      "Tracking negativo en titulares, neutro en cuerpo",
+      "Monoespaciada solo para datos, código o etiquetas pequeñas"
+    ]
+  },
+  "motion": {
+    "tempo": "medium",
+    "easing": {
+      "in": "cubic-bezier(0.4, 0, 1, 1)",
+      "out": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "inOut": "cubic-bezier(0.65, 0, 0.35, 1)"
+    },
+    "spring": { "damping": 22, "stiffness": 170, "mass": 0.9 },
+    "staggerFrames": 3,
+    "durations": { "micro": 6, "short": 14, "medium": 22, "long": 60 },
+    "principles": [
+      "Las entradas son por máscara (el texto sube desde detrás de una línea invisible)",
+      "Nada rebota: el overshoot es cero o imperceptible",
+      "Las salidas son más rápidas que las entradas",
+      "Un elemento se mueve a la vez, salvo cascadas de texto",
+      "La retícula de fondo deriva muy lento para dar vida sin distraer"
+    ],
+    "signatureMoves": [
+      "Línea de acento que crece de 0 al ancho del titular justo antes de que entre el texto",
+      "Cascada de palabras con 3 frames de desfase y 14 frames de duración",
+      "Número que cuenta hacia arriba con cifras tabulares",
+      "Cortinilla wipe de color primario entre escenas"
+    ]
+  },
+  "layout": {
+    "fps": 30,
+    "aspectRatios": ["16:9", "9:16"],
+    "marginPct": 7,
+    "density": "minimal",
+    "alignment": "izquierda a la retícula, salvo cierres centrados",
+    "rules": [
+      "Todo el texto dentro del margen seguro",
+      "Una idea por escena",
+      "El tercio inferior nunca compite con un titular"
+    ]
+  },
+  "shapes": {
+    "cornerRadius": 6,
+    "strokeWidth": 2,
+    "shadows": "none",
+    "textures": ["grid"]
+  },
+  "transitions": ["wipe horizontal de color primario", "corte seco", "fundido a fondo"],
+  "doNot": [
+    "No usar degradados arcoíris ni neón",
+    "No usar rebotes exagerados ni elastic",
+    "No usar sombras paralelas ni glow",
+    "No apilar más de 3 elementos animándose a la vez",
+    "No usar tipografías con serifa"
+  ]
+}

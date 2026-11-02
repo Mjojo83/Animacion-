@@ -1,0 +1,17 @@
+{
+  "model": "claude-opus-5-5",
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npx remotion:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(ffprobe:*)",
+      "Read(styles/**)",
+      "Read(out/**)",
+      "Read(src/**)",
+      "Read(cli/**)"
+    ]
+  }
+}

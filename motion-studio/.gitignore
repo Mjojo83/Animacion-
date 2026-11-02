@@ -1,0 +1,11 @@
+node_modules/
+out/
+.env
+*.log
+.DS_Store
+# frames extraídos automáticamente de las referencias (se regeneran)
+styles/*/references/_frames/
+# caché de imágenes normalizadas para la API
+styles/*/references/_cache/
+# Chrome headless shell descargado por Remotion
+node_modules/.remotion/
