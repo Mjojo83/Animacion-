@@ -27,7 +27,15 @@ Cómo se probó cada skill y cada patrón: escribir una composición que lo use 
 ## Ronda 3 → todo en verde
 Resultado de `npm run probar -- --guias` (tabla copiada de `out/pruebas/REPORTE.md`):
 
-RONDA3_TABLA
+| Composición | Render | Duración | Tiempo render | Comprobaciones | Hoja de contacto |
+|---|---|---|---|---|---|
+| CatalogoPatrones | ✓ | 36.0s | 80s | ✓ duración 36.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo | `out/pruebas/CatalogoPatrones/contact-sheet.jpg` |
+| DemoAudio | ✓ | 10.0s | 25s | ✓ duración 10.01s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo<br>✓ 20 beats detectados (esperados 20)<br>✓ intervalos de 0.5 s (bpm≈120) | `out/pruebas/DemoAudio/contact-sheet.jpg` |
+| DemoCaptions | ✓ | 9.0s | 24s | ✓ duración 9.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo | `out/pruebas/DemoCaptions/contact-sheet.jpg` |
+| DemoEditorial | ✓ | 10.0s | 26s | ✓ duración 10.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo | `out/pruebas/DemoEditorial/contact-sheet.jpg` |
+| DemoMinimalTech | ✓ | 10.0s | 25s | ✓ duración 10.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo | `out/pruebas/DemoMinimalTech/contact-sheet.jpg` |
+| DemoVertical | ✓ | 8.0s | 26s | ✓ duración 8.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ hay movimiento en el primer segundo | `out/pruebas/DemoVertical/contact-sheet.jpg` |
+| PruebaFuentes | ✓ | 2.0s | 9s | ✓ duración 2.00s<br>✓ sin tramos estáticos > 2.5 s<br>✓ fuente cargada: Inter 700 (dif. 22.0)<br>✓ fuente cargada: JetBrains Mono 500 (dif. 22.0)<br>✓ fuente cargada: Playfair Display 600 (dif. 20.6)<br>✓ fuente cargada: DM Sans 400 (dif. 17.3) | `out/pruebas/PruebaFuentes/contact-sheet.jpg` |
 
 ## Qué se verificó visualmente (hojas de contacto)
 - **PruebaFuentes**: Inter 700, JetBrains Mono 500, Playfair Display 600 y DM Sans 400 cargadas (diferencia frente al control serif ≈ 17-24 en una escala 0-255).
