@@ -27,7 +27,8 @@ Orden de comprobación: **1) compila → 2) renderiza → 3) se ve bien**. No sa
 ## 3. Renderiza pero se ve mal
 | Síntoma | Causa probable | Cómo confirmarlo | Arreglo |
 |---|---|---|---|
-| Tipografía de sistema en vez de la del estilo | La fuente no cargó (sin red, nombre mal escrito, peso no disponible) | `npm run probar -- PruebaFuentes` compara arriba (Google) vs abajo (system-ui); si "dif. mitades" < 4, no cargó | Comprueba el nombre exacto en Google Fonts y que el peso exista; `googleFont: true` en `style.json` |
+| Tipografía de sistema en vez de la del estilo | La fuente no cargó (sin red, nombre mal escrito, peso no disponible) o se pidió antes de que el CSS de Google llegara (`document.fonts.load` resuelve vacío si aún no existe la FontFace) | `npm run probar -- PruebaFuentes` compara cada fila con un control `serif` y nombra la fuente que falla | Comprueba el nombre exacto en Google Fonts y que el peso exista; `googleFont: true` en `style.json`. Si escribes tu propio cargador, espera `link.onload` antes de `fonts.load()` (así lo hace `useGoogleFont`) |
+| La comprobación de fuentes dice que no cargó pero se ve bien | La fuente también está instalada en el sistema (p. ej. Inter) y el control la usa | `fc-match system-ui` | Por eso el control de `PruebaFuentes` es `serif`, no `system-ui` |
 | Elementos cortados por el borde | Texto fuera del margen o `fontSize` fijo | Mira la hoja de contacto | Envuelve en `<SafeArea>`, `maxWidth`, tamaños relativos a `height` |
 | Un elemento aparece antes de tiempo o no se va | Falta `clamp` o falta `exitAt` | Frame anterior al `start` lo muestra | `extrapolateLeft/Right: "clamp"`; usa `exitAt` |
 | Todo entra a la vez / se ve "generado" | Sin cascada ni jerarquía | Hoja de contacto: todos los elementos en el mismo frame | `staggerStart`, `StaggerList`, una idea por escena |

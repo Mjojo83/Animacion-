@@ -33,7 +33,16 @@ export const SceneTransition: React.FC<Props> = ({ style, at, variant = "wipe", 
   if (variant === "slide") {
     return <AbsoluteFill style={{ background: c, transform: `translate${axis}(${t}%)` }} />;
   }
-  // wipe: clip-path que avanza
-  const inset = reveal > 0 ? `inset(0 0 0 ${reveal * 100}%)` : `inset(0 ${(1 - cover) * 100}% 0 0)`;
+  // wipe: clip-path que avanza en la dirección indicada (cubre y luego descubre)
+  const cv = (1 - cover) * 100;
+  const rv = reveal * 100;
+  const inset =
+    direction === "up"
+      ? reveal > 0 ? `inset(0 0 ${rv}% 0)` : `inset(${cv}% 0 0 0)`
+      : direction === "down"
+        ? reveal > 0 ? `inset(${rv}% 0 0 0)` : `inset(0 0 ${cv}% 0)`
+        : direction === "left"
+          ? reveal > 0 ? `inset(0 ${rv}% 0 0)` : `inset(0 0 0 ${cv}%)`
+          : reveal > 0 ? `inset(0 0 0 ${rv}%)` : `inset(0 ${cv}% 0 0)`;
   return <AbsoluteFill style={{ background: c, clipPath: inset }} />;
 };

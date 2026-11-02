@@ -13,10 +13,18 @@ export const meta: CompositionMeta = {
   fps: 30,
   durationInFrames: 60,
   style: "ejemplo-minimal-tech",
-  description: "Prueba de carga de fuentes: arriba con las fuentes de Google de cada estilo, abajo el mismo texto forzado a system-ui. Si ambas mitades son iguales, las fuentes no cargaron.",
+  description: "Prueba de carga de fuentes: arriba cada fuente de Google con respaldo `serif`, abajo el mismo texto forzado a `serif`. Si una fila es igual a su control, esa fuente no cargó.",
 };
 
 const SAMPLE = "Hamburgefonstiv 0123 ¿Qué tal? ÁÉÍÓÚ ñ";
+
+/** Etiquetas de las 4 filas, en orden; `npm run probar` compara cada una con su control. */
+export const FONT_ROWS = [
+  `${tech.typography.display.family} ${tech.typography.display.weight}`,
+  `${tech.typography.mono?.family ?? "mono"} ${tech.typography.mono?.weight ?? ""}`,
+  `${editorial.typography.display.family} ${editorial.typography.display.weight}`,
+  `${editorial.typography.body.family} ${editorial.typography.body.weight}`,
+];
 
 export const Component: React.FC = () => {
   const a = useStyle(tech);
@@ -30,25 +38,23 @@ export const Component: React.FC = () => {
     { label: `${editorial.typography.body.family} (body editorial)`, css: b.fonts.body },
   ];
   const Row: React.FC<{ css: React.CSSProperties; label: string; fallback?: boolean }> = ({ css, label, fallback }) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <span style={{ fontFamily: "system-ui", fontSize: 18, color: "#888" }}>
-        {fallback ? "system-ui (control)" : label}
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: 2, paddingLeft: 40 }}>
+      <span style={{ fontFamily: "sans-serif", fontSize: 18, color: "#888" }}>
+        {fallback ? `serif (control de ${label})` : label}
       </span>
-      <span style={{ ...css, fontSize: 64, lineHeight: 1.1, color: "#111", ...(fallback ? { fontFamily: "system-ui" } : {}) }}>{SAMPLE}</span>
+      {/* El respaldo es `serif` a propósito: si la fuente de Google no carga, la fila queda idéntica a su control. */}
+      <span style={{ ...css, fontSize: 64, lineHeight: 1.1, color: "#111", whiteSpace: "nowrap", fontFamily: fallback ? "serif" : `${String(css.fontFamily).split(",")[0]}, serif` }}>{SAMPLE}</span>
     </div>
   );
+  // 8 filas de igual altura (12.5 % cada una): arriba las fuentes del estilo, abajo los controles.
   return (
-    <AbsoluteFill style={{ background: "#fff", padding: 40, boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, height: "50%" }}>
-        {rows.map((r) => (
-          <Row key={r.label} css={r.css} label={r.label} />
-        ))}
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, height: "50%", borderTop: "2px dashed #ddd", paddingTop: 10 }}>
-        {rows.map((r) => (
-          <Row key={r.label + "-fb"} css={r.css} label={r.label} fallback />
-        ))}
-      </div>
+    <AbsoluteFill style={{ background: "#fff", display: "grid", gridTemplateRows: "repeat(8, 1fr)" }}>
+      {rows.map((r) => (
+        <Row key={r.label} css={r.css} label={r.label} />
+      ))}
+      {rows.map((r) => (
+        <Row key={r.label + "-fb"} css={r.css} label={r.label} fallback />
+      ))}
     </AbsoluteFill>
   );
 };

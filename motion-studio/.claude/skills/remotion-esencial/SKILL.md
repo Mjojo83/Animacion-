@@ -49,7 +49,7 @@ import { Img, staticFile } from "remotion";
 - Metadatos de un video para la duración de la composición: `calculateMetadata` en `<Composition>` + `getVideoMetadata` de `@remotion/media-utils`.
 
 ## 4. Fuentes
-- Este proyecto: `useStyleFonts(style)` carga las fuentes de Google de un `style.json` (dinámico) y retrasa el render con `delayRender` hasta que estén listas. Verificado con Inter, JetBrains Mono, Playfair Display y DM Sans (`PruebaFuentes`).
+- Este proyecto: `useStyleFonts(style)` carga las fuentes de Google de un `style.json` (dinámico): inyecta el CSS, espera a que cargue y solo entonces pide cada peso (normal e itálica) con `document.fonts.load`, reteniendo el render con `delayRender`. Verificado con Inter, JetBrains Mono, Playfair Display y DM Sans (`PruebaFuentes`). Pedir la fuente antes de que el CSS llegue es la causa típica de "a veces sale en sans".
 - Alternativa oficial (tipada, por fuente): `import { loadFont } from "@remotion/google-fonts/Inter"; const { fontFamily } = loadFont("normal", { weights: ["400","700"], subsets: ["latin"] });` (ya instalado).
 - Fuentes locales: `@remotion/fonts` `loadFont({ family, url: staticFile("x.woff2"), weight })`.
 - Medir texto / ajustar a un ancho: `@remotion/layout-utils` → `measureText`, `fitText`, `fillTextBox` (instalado). Llamar solo después de que la fuente cargó.

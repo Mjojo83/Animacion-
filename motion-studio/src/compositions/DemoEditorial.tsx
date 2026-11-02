@@ -52,6 +52,8 @@ export const Component: React.FC = () => {
             color={s.palette.muted}
             maxWidth={width * 0.42}
           />
+          {/* Filete que se dibuja despacio durante la pausa de lectura (movimiento firma del estilo) */}
+          <Accent style={st} variant="line" start={64} exitAt={142} length={width * 0.42} color={s.palette.secondary} thickness={1} />
         </SafeArea>
       </Sequence>
 
@@ -68,11 +70,13 @@ export const Component: React.FC = () => {
             <p style={{ ...st.fonts.body, fontSize: height * 0.024, color: s.palette.muted, margin: 0, letterSpacing: "0.18em", textTransform: "uppercase" }}>
               <TextReveal style={st} text="Lucía Herrera · productora" start={48} variant="fade-up" role="body" size={0.022} color={s.palette.muted} styleOverride={{ letterSpacing: "0.18em", textTransform: "uppercase" }} />
             </p>
-            <div style={{ marginTop: height * 0.02 }}>
-              <Highlight style={st} start={70} variant="underline" color={s.palette.accent}>
-                <span style={{ ...st.fonts.body, fontSize: height * 0.026, color: s.palette.foreground }}>Leer el reportaje completo</span>
-              </Highlight>
-            </div>
+            <Entrance style={st} start={56} fromScale={1} distance={16}>
+              <div style={{ marginTop: height * 0.02 }}>
+                <Highlight style={st} start={74} variant="underline" color={s.palette.accent}>
+                  <span style={{ ...st.fonts.body, fontSize: height * 0.026, color: s.palette.foreground }}>Leer el reportaje completo</span>
+                </Highlight>
+              </div>
+            </Entrance>
           </div>
         </SafeArea>
       </Sequence>

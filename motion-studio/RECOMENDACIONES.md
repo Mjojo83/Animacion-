@@ -55,7 +55,7 @@ No encontré skills que cubrieran, con código probado, estas necesidades concre
 | `depurar-render` | Síntoma → causa → arreglo (Chrome, fuentes, delayRender, estático, audio) | Los fallos que aparecieron en el loop están en la tabla |
 | `estilos-motion`, `principios-motion`, `revision-frames` | Sistema de estilos, principios y rúbrica de revisión | Usadas para escribir y revisar las demos |
 
-Lo que el loop detectó y se corrigió: un regex de metadatos que leía la duración de otro objeto, la hoja de contacto que fallaba con videos verticales, barras de gráfico sin contraste, y un detector de "tramos estáticos" mal calibrado (ahora mide % de píxeles que cambian a 192×108).
+Lo que el loop detectó y se corrigió (detalle en `docs/PRUEBAS.md`): un regex de metadatos que leía la duración de otro objeto; la hoja de contacto que fallaba con videos verticales; barras de gráfico sin contraste; un detector de "tramos estáticos" mal calibrado (ahora mide % de píxeles que cambian a 192×108); **una carrera en la carga de Google Fonts** que hacía que Playfair saliera en sans según el caché (el cargador ahora espera al CSS antes de pedir la fuente); un falso negativo del test de fuentes porque `system-ui` era Inter en el sistema; wipes verticales que iban en horizontal; y 3 s muertos en la pieza editorial.
 
 ## 3. Por qué el "aprendizaje de estilos" está hecho así
 

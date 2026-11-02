@@ -79,14 +79,14 @@ const realMeta = async (id: string) => {
   return fallback;
 };
 
-/** Media de |arriba − abajo| de un still (para comprobar que la fuente cargó). */
-const halvesDiff = (png: string): number => {
-  const half = (crop: string) => {
-    const r = spawnSync("ffmpeg", ["-v", "error", "-i", png, "-vf", `${crop},scale=192:54,format=gray`, "-f", "rawvideo", "-"], { maxBuffer: 1024 * 1024 * 32 });
-    return r.stdout;
+/** Media de |fila i − fila i+4| de un still de 8 filas iguales (fuente del estilo vs control system-ui). */
+const rowDiff = (png: string, row: number): number => {
+  const crop = (r: number) => {
+    const res = spawnSync("ffmpeg", ["-v", "error", "-i", png, "-vf", `crop=iw:ih/8:0:ih/8*${r},scale=384:27,format=gray`, "-f", "rawvideo", "-"], { maxBuffer: 1024 * 1024 * 32 });
+    return res.stdout;
   };
-  const a = half("crop=iw:ih/2:0:0");
-  const b = half("crop=iw:ih/2:0:ih/2");
+  const a = crop(row);
+  const b = crop(row + 4);
   let sum = 0;
   for (let i = 0; i < Math.min(a.length, b.length); i++) sum += Math.abs(a[i] - b[i]);
   return sum / Math.min(a.length, b.length);
@@ -119,13 +119,16 @@ const probar = async (id: string) => {
   checks.push(Math.abs(seconds - expected) < 0.2 ? `✓ duración ${seconds.toFixed(2)}s` : `✗ duración ${seconds.toFixed(2)}s ≠ ${expected.toFixed(2)}s`);
   checks.push(spans.length === 0 ? "✓ sin tramos estáticos > 2.5 s" : `! estático: ${spans.join(", ")}`);
   const firstMotion = Math.max(...diffs.slice(0, PFPS));
-  checks.push(firstMotion > 0.3 ? "✓ hay movimiento en el primer segundo" : "! primer segundo casi estático");
+  if (id !== "PruebaFuentes") checks.push(firstMotion > 0.3 ? "✓ hay movimiento en el primer segundo" : "! primer segundo casi estático");
 
   if (id === "PruebaFuentes") {
     const still = path.join(dir, "still.png");
     if (remotion(["still", ENTRY, id, still, "--frame=40", "--log=error"])) {
-      const d = halvesDiff(still);
-      checks.push(d > 4 ? `✓ fuentes de Google cargadas (dif. mitades ${d.toFixed(1)})` : `✗ las fuentes NO cargaron: arriba y abajo son iguales (dif. ${d.toFixed(1)})`);
+      const labels = ((await import(path.join(COMPOSITIONS_DIR, "PruebaFuentes.tsx"))) as { FONT_ROWS?: string[] }).FONT_ROWS ?? ["fila 1", "fila 2", "fila 3", "fila 4"];
+      labels.forEach((label, i) => {
+        const d = rowDiff(still, i);
+        checks.push(d > 3 ? `✓ fuente cargada: ${label} (dif. ${d.toFixed(1)})` : `✗ fuente NO cargada: ${label} (igual que system-ui, dif. ${d.toFixed(1)})`);
+      });
     }
   }
   if (id === "DemoAudio") {
