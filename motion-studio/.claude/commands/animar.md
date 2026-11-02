@@ -13,5 +13,5 @@ Pasos (no te saltes ninguno):
 3. Escribe el **guion por frames** (escenas, qué entra, qué sale, pausas) y muéstraselo al usuario en 5-8 líneas antes de codificar.
 4. Escribe `src/compositions/<Id>.tsx` (Id en PascalCase derivado del brief). Usa los tokens del estilo para todo: colores, fuentes, duraciones (`st.d.*`), easings (`st.eases.*`), margen (`SafeArea`). Respeta `doNot`.
 5. `npm run manifest && npm run typecheck`. Corrige hasta que no haya errores.
-6. Renderiza a media escala y mira frames: `npx remotion render src/index.ts <Id> out/<Id>/<Id>.mp4 --scale=0.5` y luego extrae 8 frames repartidos con ffmpeg y míralos con Read. Compara mentalmente con las referencias. Si algo no es del estilo o no se lee, corrígelo y vuelve a renderizar.
+6. `npm run probar -- <Id>` (renderiza a media escala, extrae 8 frames, arma `out/pruebas/<Id>/contact-sheet.jpg` y comprueba duración, tramos estáticos y movimiento inicial). Mira la hoja de contacto con Read y compárala con las referencias. Si algo no es del estilo o no se lee, corrígelo y vuelve a correrlo. Patrones disponibles: skill `patrones-motion`.
 7. Termina diciendo: ruta del archivo, qué decisiones tomaste a favor del estilo, y cómo verlo (`npm run studio`) y renderizarlo en calidad final.

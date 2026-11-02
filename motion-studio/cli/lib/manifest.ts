@@ -36,11 +36,13 @@ export const readMeta = (compositionId: string): { file: string; style: string |
   const file = path.join(COMPOSITIONS_DIR, `${compositionId}.tsx`);
   if (!fs.existsSync(file)) throw new Error(`No existe src/compositions/${compositionId}.tsx`);
   const code = fs.readFileSync(file, "utf8");
+  // Solo miramos dentro de `export const meta = { ... }` para no confundirnos con otros objetos.
+  const block = code.match(/export\s+const\s+meta[^=]*=\s*\{([\s\S]*?)\};/)?.[1] ?? code;
   const pick = (key: string) => {
-    const m = code.match(new RegExp(`${key}\\s*:\\s*([0-9]+)`));
+    const m = block.match(new RegExp(`\\b${key}\\s*:\\s*([0-9]+)`));
     return m ? Number(m[1]) : NaN;
   };
-  const styleMatch = code.match(/style\s*:\s*["'`]([^"'`]+)["'`]/);
+  const styleMatch = block.match(/\bstyle\s*:\s*["'`]([^"'`]+)["'`]/);
   return {
     file,
     style: styleMatch ? styleMatch[1] : null,

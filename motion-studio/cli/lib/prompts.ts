@@ -21,17 +21,21 @@ export const libSources = (): string => {
 };
 
 export const REMOTION_CHEATSHEET = `
-## Remotion: lo esencial (v4)
+## Remotion: lo esencial (v4.0.540, verificado en este proyecto)
 - Todo es una función pura del frame: \`const frame = useCurrentFrame()\`. Prohibido: CSS transitions/animations, setTimeout, requestAnimationFrame, Math.random (usa \`random("semilla")\` de remotion).
-- \`const { fps, width, height, durationInFrames } = useVideoConfig()\`.
-- \`interpolate(frame, [a, b], [x, y], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing })\`.
-- \`spring({ frame, fps, config: { damping, stiffness, mass } })\` devuelve 0→1 (puede pasar de 1 si hay overshoot).
+- \`const { fps, width, height, durationInFrames } = useVideoConfig()\`; segundos→frames siempre con ese fps.
+- \`interpolate(frame, [a, b], [x, y], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing })\`; para escalas añade \`output: "perceptual-scale"\`.
+- \`spring({ frame, fps, config: { damping, stiffness, mass } })\` devuelve 0→1 (damping alto = sin rebote).
+- Prefiere las propiedades CSS individuales \`scale\`, \`translate\`, \`rotate\` sobre \`transform: "..."\`.
 - \`<Sequence from={n} durationInFrames={m} name="...">\`: dentro, useCurrentFrame() empieza en 0. Úsalo para escenas.
-- \`<AbsoluteFill>\` = div posicionado que llena el video. \`<Img src={staticFile("logo.png")} />\` para archivos en public/.
-- \`<Audio src={staticFile("musica.mp3")} />\`, \`<Video>\`, \`<OffthreadVideo>\` para media.
-- \`Easing.bezier(x1, y1, x2, y2)\`, \`Easing.out(Easing.cubic)\`, etc.
+- Escenas consecutivas con transición: \`TransitionSeries\` de @remotion/transitions (+ \`fade()\`, \`slide()\`, \`wipe()\` de @remotion/transitions/<nombre>); las transiciones acortan la duración total.
+- \`<AbsoluteFill>\` = capa que llena el video. \`<Img src={staticFile("x.png")} />\` para archivos en public/.
+- Audio y video: \`import { Audio, Video } from "@remotion/media"\` (NO los de "remotion"); props \`from\`, \`trimBefore\`, \`durationInFrames\`, \`volume\`, \`loop\`.
 - Fuentes: llama \`useStyleFonts(style)\` una vez en el componente raíz (carga Google Fonts y espera a que estén listas).
+- Beats de música: \`useBeats(beatsJson)\` de ../lib/beats (el JSON lo genera \`npm run beats -- public/x.wav\`).
+- Subtítulos por palabra: \`<Captions style={st} words={[{text,start,end}]} />\` de ../lib/components.
 - Tamaños siempre relativos a width/height (nunca px fijos pensados solo para 1080p) para que la misma pieza sirva en 9:16.
+- gap/margin junto a texto grande en px, no em.
 `;
 
 export const ANIMATOR_SYSTEM = `Eres un director de motion graphics senior que escribe composiciones de Remotion (React + TypeScript) para un estudio. Tu trabajo: convertir un brief y un ESTILO con nombre en una pieza que parezca hecha por el mismo estudio que las referencias.

@@ -42,6 +42,21 @@ Lo que el plugin oficial **no** trae: estilos con nombre aprendidos de referenci
 - Plugins de "diseño UI" (design-skills, Superdesign, Website Design): orientados a interfaces y landing pages, no a video.
 - Codesign (IMG.LY): motor de diseño editable con exportación a video; interesante para plantillas de redes, pero es un ecosistema aparte con servidor MCP remoto. Pruébalo solo si necesitas InDesign/Photoshop/PDF además de video.
 
+## 2.6 Skills que no existían y creé (y probé) aquí ✅
+No encontré skills que cubrieran, con código probado, estas necesidades concretas, así que las escribí en `.claude/skills/` a partir de los skills oficiales de Remotion (clonados y leídos), los comunitarios y un loop de render real (`npm run probar`, ver `docs/PRUEBAS.md`):
+
+| Skill | Qué cubre | Cómo se probó |
+|---|---|---|
+| `remotion-esencial` | API 4.0.540 condensada (Sequence/Track/TransitionSeries, @remotion/media, fuentes, props, CLI) | Todas las composiciones compilan y renderizan con esas APIs |
+| `patrones-motion` | 12 patrones listos (`src/lib/patterns`) con cuándo usar cada uno y sus trampas | `CatalogoPatrones` (36 s) renderizado e inspeccionado frame a frame |
+| `formato-vertical` | Zonas de interfaz 9:16, tamaños, ritmo, adaptación desde 16:9 | `DemoVertical` con `--guias` |
+| `audio-sync` | Detector de beats sin dependencias + `useBeats` + ducking + SFX | `DemoAudio`: 20/20 beats a 120 bpm detectados |
+| `captions` | Subtítulos por palabra (karaoke/pop) con zona segura | `DemoCaptions` en 9:16 |
+| `depurar-render` | Síntoma → causa → arreglo (Chrome, fuentes, delayRender, estático, audio) | Los fallos que aparecieron en el loop están en la tabla |
+| `estilos-motion`, `principios-motion`, `revision-frames` | Sistema de estilos, principios y rúbrica de revisión | Usadas para escribir y revisar las demos |
+
+Lo que el loop detectó y se corrigió: un regex de metadatos que leía la duración de otro objeto, la hoja de contacto que fallaba con videos verticales, barras de gráfico sin contraste, y un detector de "tramos estáticos" mal calibrado (ahora mide % de píxeles que cambian a 192×108).
+
 ## 3. Por qué el "aprendizaje de estilos" está hecho así
 
 No existe fine-tuning de Claude para esto, y aunque existiera, no es lo que quieres: quieres poder cambiar el estilo mañana. Lo que sí está demostrado en la práctica de la comunidad 📚 y en este proyecto ✅:

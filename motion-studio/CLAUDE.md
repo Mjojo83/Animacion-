@@ -25,9 +25,18 @@ Motion graphics en código (Remotion) con **estilos con nombre** que se aprenden
 - `ffmpeg -ss 2.5 -i out/<Id>.mp4 -frames:v 1 out/f.jpg` → un frame para mirarlo con Read.
 - `npm run revisar -- <Id> --fix` → loop completo render → frames → crítica → corrección con la API.
 
-## Skills del proyecto
+## Skills del proyecto (todas probadas con `npm run probar`)
 - `estilos-motion`: cómo funciona el sistema de estilos y cómo cargarlo.
 - `principios-motion`: principios de motion design para animación en código.
+- `patrones-motion`: catálogo de componentes probados (entradas, listas, resaltados, Ken Burns, gráficos, logo, parallax…) y cuándo usar cada uno.
+- `remotion-esencial`: API de Remotion 4.0.540 condensada y verificada; sustituye al plugin oficial si no está instalado.
+- `formato-vertical`: 9:16 / 1:1 / 4:5, zonas de interfaz, tamaños.
+- `audio-sync`: beats con `npm run beats`, `useBeats`, ducking, SFX.
+- `captions`: subtítulos por palabra con `<Captions>`.
 - `revision-frames`: cómo revisar una pieza mirando frames y qué puntuar.
+- `depurar-render`: tabla síntoma → causa → arreglo para renders rotos.
+
+## Loop de pruebas
+`npm run probar` renderiza todas las composiciones a media escala, extrae 8 frames, arma `out/pruebas/<Id>/contact-sheet.jpg` y comprueba duración, tramos estáticos, movimiento inicial, fuentes (`PruebaFuentes`) y beats (`DemoAudio`). Reporte en `out/pruebas/REPORTE.md`. Después de tocar `src/lib` o añadir un patrón, córrelo y mira las hojas de contacto con Read.
 
 Si el plugin oficial de Remotion está instalado (`/remotion-best-practices`, `/remotion-markup`…), úsalo para dudas de API. Las reglas de arriba mandan sobre el estilo visual.

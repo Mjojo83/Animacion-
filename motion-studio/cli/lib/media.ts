@@ -89,7 +89,9 @@ export const contactSheet = (frames: string[], out: string, cols = 4, tileW = 48
   const tmp = fs.mkdtempSync(path.join(path.dirname(out), "sheet-"));
   frames.forEach((f, i) => fs.copyFileSync(f, path.join(tmp, `t-${String(i).padStart(3, "0")}.jpg`)));
   const rows = Math.ceil(frames.length / cols);
-  const vf = `scale=${tileW}:${tileH}:force_original_aspect_ratio=decrease,pad=${tileW}:${tileH}:(ow-iw)/2:(oh-ih)/2:color=0x111111,tile=${cols}x${rows}:padding=6:margin=6:color=0x202020`;
+  const tw = Math.round(tileW / 2) * 2;
+  const th = Math.round(tileH / 2) * 2;
+  const vf = `scale=${tw}:${th}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${tw}:${th}:(ow-iw)/2:(oh-ih)/2:color=0x111111,tile=${cols}x${rows}:padding=6:margin=6:color=0x202020`;
   const r = run("ffmpeg", ["-y", "-v", "error", "-framerate", "1", "-start_number", "0", "-i", path.join(tmp, "t-%03d.jpg"), "-vf", vf, "-frames:v", "1", "-q:v", "3", out]);
   fs.rmSync(tmp, { recursive: true, force: true });
   if (!r.ok) throw new Error(`ffmpeg falló creando la hoja de contacto: ${r.out}`);

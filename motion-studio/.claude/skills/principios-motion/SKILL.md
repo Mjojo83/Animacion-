@@ -52,5 +52,14 @@ Corte seco es la transición por defecto y la más elegante. Wipe/slide cuando c
 - Fuentes que no cargaron (render con fuente de sistema): llama `useStyleFonts(style)`.
 - Glow, sombras y degradados que el estilo no tiene.
 
-## 10. Verificación
-No des una pieza por buena sin mirar frames renderizados: al menos 8 repartidos por la duración. Comprueba: legibilidad, elementos cortados por el borde, superposiciones, fuente correcta, nada estático demasiado tiempo (> 3 s sin cambio en una pieza corta).
+## 10. Capas y textura
+Orden de abajo arriba: fondo (con textura sutil) → assets (fotos con Ken Burns) → gráficos y texto → cortinillas → grano → viñeta. Un fondo plano sin nada se ve "de plantilla"; una retícula al 8 % o un grano al 5 % lo arreglan. En fondos claros el grano va en `multiply`.
+
+## 11. Entradas con 2-3 propiedades
+Opacidad sola = fade barato. Opacidad + desplazamiento corto (20-40 px) + escala 0.96→1 = entrada "cara". `Entrance` y `TextReveal` ya lo hacen; no añadas rebote si el estilo no lo tiene.
+
+## 12. Holds y respiración
+Tras cada entrada, 15-25 frames sin nada nuevo. Si algo se queda > 2 s quieto, envuélvelo en `Breathe` (4 px de vaivén) o dale un detalle vivo (contador, línea, retícula que deriva). `npm run probar` marca tramos estáticos > 2.5 s.
+
+## 13. Verificación (obligatoria)
+No des una pieza por buena sin mirar frames renderizados: `npm run probar -- <Id>` y abre `out/pruebas/<Id>/contact-sheet.jpg`. Comprueba: legibilidad, elementos cortados por el borde, superposiciones, fuente correcta (no system-ui), colores del estilo, nada estático demasiado tiempo, movimiento en el primer segundo.

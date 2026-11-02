@@ -101,6 +101,31 @@ No hay fine-tuning de Claude. El aprendizaje es de tres capas, y las tres están
 
 Además, en cada generación se envían algunas referencias visuales junto con el brief, y en cada revisión se comparan los frames renderizados contra esas referencias.
 
+## Probar que todo funciona (el loop)
+
+```bash
+npm run probar                  # renderiza todas las composiciones a media escala y las comprueba
+npm run probar -- DemoVertical  # solo una
+npm run probar -- --guias       # DemoVertical con las zonas de interfaz de Reels dibujadas
+```
+Por cada composición deja `out/pruebas/<Id>/` con el mp4, 8 frames etiquetados y una **hoja de contacto**, y escribe `out/pruebas/REPORTE.md` con: duración correcta, tramos estáticos > 2.5 s, movimiento en el primer segundo, fuentes de Google cargadas (`PruebaFuentes`) y beats detectados (`DemoAudio`). Las hojas de contacto las miras tú (o Claude con Read): la máquina no ve tipografía cortada ni colores fuera de estilo.
+
+Composiciones incluidas como prueba y referencia:
+
+| Id | Qué demuestra |
+|---|---|
+| `DemoMinimalTech` | Pieza de 10 s con el estilo oscuro: plantilla base |
+| `DemoEditorial` | Estilo claro con serifa (Playfair + DM Sans), Ken Burns, cita, grano en multiply |
+| `CatalogoPatrones` | Los 12 patrones de `src/lib/patterns` y `components`, 3 s cada uno |
+| `DemoVertical` | 9:16 con zonas seguras de Reels/TikTok |
+| `DemoAudio` | Sincronía con beats detectados (`npm run beats`) |
+| `DemoCaptions` | Subtítulos por palabra en vertical |
+| `PruebaFuentes` | Comprueba que las fuentes de Google cargan (arriba) frente a system-ui (abajo) |
+
+## Skills incluidas (en `.claude/skills/`, las usa Claude Code solo)
+
+`estilos-motion`, `principios-motion`, `patrones-motion`, `remotion-esencial`, `formato-vertical`, `audio-sync`, `captions`, `revision-frames`, `depurar-render`. Cada una se escribió a partir de los skills oficiales de Remotion y los comunitarios, y se validó con `npm run probar` (ver `docs/PRUEBAS.md`). El plugin oficial de Remotion sigue siendo recomendable: `remotion-esencial` lo resume, no lo sustituye en casos raros (mapas, 3D, efectos GPU).
+
 ## Estructura del proyecto
 
 ```
@@ -116,8 +141,10 @@ motion-studio/
 │   ├── _template/
 │   └── ejemplo-minimal-tech/ # estilo de ejemplo escrito a mano
 ├── src/
-│   ├── lib/                  # tokens, easings, fuentes, componentes (TextReveal, LowerThird…)
-│   └── compositions/         # tus videos; DemoMinimalTech.tsx es la plantilla
+│   ├── lib/                  # tokens, easings, fuentes, beats, componentes y patrones probados
+│   └── compositions/         # tus videos; DemoMinimalTech.tsx es la plantilla; Demo*/Catalogo* son pruebas
+├── scripts/probar.ts         # loop render → frames → hoja de contacto → comprobaciones
+├── scripts/beats.ts          # detector de beats (ffmpeg + Node, sin dependencias)
 ├── cli/                      # la CLI (Anthropic SDK + Opus 5.5)
 ├── scripts/setup.sh, install-skills.sh
 └── public/                   # logos, audio, imágenes que uses en las piezas (staticFile)
